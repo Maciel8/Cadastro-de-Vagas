@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Listar Vagas - Estacionamento</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Sistema de Controle de Estacionamento</h1>
+    <nav>
+      <ul>
+        <li><a href="cadastro.html">Cadastrar Reserva</a></li>
+        <li><a href="listar.html" class="active">Listar Vagas</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="list-header">
+      <h2>Listagem de Vagas</h2>
+      <div class="filter-controls">
+        <button class="filter-btn active" onclick="filtrar('all')">Todas</button>
+        <button class="filter-btn" onclick="filtrar('available')">Disponíveis</button>
+        <button class="filter-btn" onclick="filtrar('occupied')">Ocupadas</button>
+      </div>
+    </div>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" oninput="buscar()" placeholder="Buscar por placa, proprietário ou apê...">
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Vaga</th>
+          <th>Status</th>
+          <th>Placa</th>
+          <th>Proprietário</th>
+          <th>Apt/Bloco</th>
+          <th>Veículo</th>
+        </tr>
+      </thead>
+      <tbody id="vagasList">
+        <!-- Populado pelo JS -->
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Sistema de Estacionamento - Condomínio</p>
+  </footer>
+
+  <script>
+    const vagasFicticias = [
+      { vaga: 1, status: 'occupied', placa: 'ABC1234', proprietario: 'João Silva', ap: '101', bloco: 'A', modelo: 'Civic', cor: 'Preto' },
+      { vaga: 2, status: 'available', placa: '', proprietario: '', ap: '', bloco: '', modelo: '', cor: '' },
+      { vaga: 3, status: 'occupied', placa: 'XYZ5678', proprietario: 'Maria Lima', ap: '203', bloco: 'B', modelo: 'Onix', cor: 'Branco' },
+      { vaga: 4, status: 'available', placa: '', proprietario: '', ap: '', bloco: '', modelo: '', cor: '' }
+    ];
+
+    const tbody = document.getElementById('vagasList');
+
+    function renderVagas(vagas) {
+      tbody.innerHTML = '';
+      vagas.forEach(vaga => {
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+          <td>${vaga.vaga}</td>
+          <td><span class="status ${vaga.status === 'available' ? 'status-available' : 'status-occupied'}">
+            ${vaga.status === 'available' ? 'Disponível' : 'Ocupada'}
+          </span></td>
+          <td>${vaga.placa || '-'}</td>
+          <td>${vaga.proprietario || '-'}</td>
+          <td>${vaga.ap ? vaga.ap + ' / ' + vaga.bloco : '-'}</td>
+          <td>${vaga.modelo ? vaga.modelo + ' (' + vaga.cor + ')' : '-'}</td>
+        `;
+
+        tbody.appendChild(row);
+      });
+    }
+
+    function filtrar(tipo) {
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      if (tipo === 'all') {
+        renderVagas(vagasFicticias);
+      } else {
+        const filtradas = vagasFicticias.filter(v => v.status === tipo);
+        renderVagas(filtradas);
+      }
+    }
+
+    function buscar() {
+      const termo = document.getElementById('searchInput').value.toLowerCase();
+      const filtradas = vagasFicticias.filter(v =>
+        v.placa.toLowerCase().includes(termo) ||
+        v.proprietario.toLowerCase().includes(termo) ||
+        v.ap.toLowerCase().includes(termo)
+      );
+      renderVagas(filtradas);
+    }
+
+    // Inicializa com todas
+    renderVagas(vagasFicticias);
+  </script>
+</body>
+</html>
