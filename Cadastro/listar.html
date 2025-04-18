@@ -40,10 +40,10 @@
           <th>Proprietário</th>
           <th>Apt/Bloco</th>
           <th>Veículo</th>
+          <th>Ações</th>
         </tr>
       </thead>
       <tbody id="vagasList">
-        <!-- Populado pelo JS -->
       </tbody>
     </table>
   </div>
@@ -53,20 +53,32 @@
   </footer>
 
   <script>
-    const vagasFicticias = [
-      { vaga: 1, status: 'occupied', placa: 'ABC1234', proprietario: 'João Silva', ap: '101', bloco: 'A', modelo: 'Civic', cor: 'Preto' },
-      { vaga: 2, status: 'available', placa: '', proprietario: '', ap: '', bloco: '', modelo: '', cor: '' },
-      { vaga: 3, status: 'occupied', placa: 'XYZ5678', proprietario: 'Maria Lima', ap: '203', bloco: 'B', modelo: 'Onix', cor: 'Branco' },
-      { vaga: 4, status: 'available', placa: '', proprietario: '', ap: '', bloco: '', modelo: '', cor: '' }
+    let todasVagas = [];
+    const vagasPredefinidas = [
+      { vaga: 1, status: 'occupied', placa: 'ABC1234', proprietario: 'João Silva', apartamento: '101', bloco: 'A', modelo: 'Civic', cor: 'Preto' },
+      { vaga: 2, status: 'available', placa: '', proprietario: '', apartamento: '', bloco: '', modelo: '', cor: '' },
+      { vaga: 3, status: 'occupied', placa: 'XYZ5678', proprietario: 'Maria Lima', apartamento: '203', bloco: 'B', modelo: 'Onix', cor: 'Branco' },
+      { vaga: 4, status: 'available', placa: '', proprietario: '', apartamento: '', bloco: '', modelo: '', cor: '' }
     ];
 
-    const tbody = document.getElementById('vagasList');
+    function carregarVagas() {
+      let vagas = JSON.parse(localStorage.getItem('estacionamento_vagas'));
+      
+      if (!vagas || vagas.length === 0) {
+        localStorage.setItem('estacionamento_vagas', JSON.stringify(vagasPredefinidas));
+        vagas = vagasPredefinidas;
+      }
+      
+      todasVagas = vagas;
+      renderVagas(todasVagas);
+    }
 
     function renderVagas(vagas) {
+      const tbody = document.getElementById('vagasList');
       tbody.innerHTML = '';
+      
       vagas.forEach(vaga => {
         const row = document.createElement('tr');
-
         row.innerHTML = `
           <td>${vaga.vaga}</td>
           <td><span class="status ${vaga.status === 'available' ? 'status-available' : 'status-occupied'}">
@@ -74,10 +86,14 @@
           </span></td>
           <td>${vaga.placa || '-'}</td>
           <td>${vaga.proprietario || '-'}</td>
-          <td>${vaga.ap ? vaga.ap + ' / ' + vaga.bloco : '-'}</td>
+          <td>${vaga.apartamento ? vaga.apartamento + ' / ' + vaga.bloco : '-'}</td>
           <td>${vaga.modelo ? vaga.modelo + ' (' + vaga.cor + ')' : '-'}</td>
+          <td>
+            ${vaga.status === 'occupied' ? 
+              `<button onclick="removerReserva(${vaga.vaga})">Liberar</button>` : 
+              `<a href="cadastro.html" class="btn-reservar">Reservar</a>`}
+          </td>
         `;
-
         tbody.appendChild(row);
       });
     }
@@ -87,25 +103,42 @@
       event.target.classList.add('active');
 
       if (tipo === 'all') {
-        renderVagas(vagasFicticias);
+        renderVagas(todasVagas);
       } else {
-        const filtradas = vagasFicticias.filter(v => v.status === tipo);
+        const filtradas = todasVagas.filter(v => v.status === tipo);
         renderVagas(filtradas);
       }
     }
 
     function buscar() {
       const termo = document.getElementById('searchInput').value.toLowerCase();
-      const filtradas = vagasFicticias.filter(v =>
-        v.placa.toLowerCase().includes(termo) ||
-        v.proprietario.toLowerCase().includes(termo) ||
-        v.ap.toLowerCase().includes(termo)
+      const filtradas = todasVagas.filter(v =>
+        (v.placa && v.placa.toLowerCase().includes(termo)) ||
+        (v.proprietario && v.proprietario.toLowerCase().includes(termo)) ||
+        (v.apartamento && v.apartamento.toLowerCase().includes(termo))
       );
       renderVagas(filtradas);
     }
+    
+    function removerReserva(numeroVaga) {
+      const index = todasVagas.findIndex(v => v.vaga === numeroVaga);
+      
+      if (index !== -1) {
+        todasVagas[index].status = 'available';
+        todasVagas[index].placa = '';
+        todasVagas[index].proprietario = '';
+        todasVagas[index].apartamento = '';
+        todasVagas[index].bloco = '';
+        todasVagas[index].modelo = '';
+        todasVagas[index].cor = '';
+        
+        localStorage.setItem('estacionamento_vagas', JSON.stringify(todasVagas));
+        renderVagas(todasVagas);
+        alert('Vaga liberada com sucesso!');
+      }
+    }
 
-    // Inicializa com todas
-    renderVagas(vagasFicticias);
+    window.onload = carregarVagas;
   </script>
 </body>
 </html>

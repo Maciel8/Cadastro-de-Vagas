@@ -1,109 +1,123 @@
-/* styles.css */
-
-/* Reset e estilos gerais */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+  }
+  
+  body {
     font-family: Arial, sans-serif;
-}
-
-body {
-    background-color: #f5f5f5;
     line-height: 1.6;
-}
-
-/* Cabeçalho */
-header {
-    background-color: #4169e1;
-    color: white;
-    padding: 15px 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-header h1 {
-    margin-bottom: 10px;
-}
-
-nav ul {
-    list-style: none;
+    color: #333;
+    background-color: #f5f5f5;
+    min-height: 100vh;
     display: flex;
-    flex-wrap: wrap;
-}
-
-nav ul li {
-    margin-right: 20px;
-}
-
-nav ul li a {
+    flex-direction: column;
+  }
+  
+  header {
+    background-color: #3498db;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  header h1 {
+    margin-bottom: 1rem;
+  }
+  
+  nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 1rem;
+  }
+  
+  nav a {
     color: white;
     text-decoration: none;
-    padding: 5px 0;
-}
-
-nav ul li a.active {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+  }
+  
+  nav a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  nav a.active {
+    background-color: rgba(255, 255, 255, 0.2);
     font-weight: bold;
-    border-bottom: 2px solid white;
-}
-
-/* Container principal */
-.container {
-    max-width: 1000px;
-    margin: 20px auto;
-    padding: 20px;
+  }
+  
+  .container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 1.5rem;
     background-color: white;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Estilos para o formulário */
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    flex: 1;
+  }
+  
+  h2 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  label {
     display: block;
+    margin-bottom: 0.5rem;
     font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.form-group input {
+  }
+  
+  input {
     width: 100%;
-    padding: 8px;
+    padding: 0.8rem;
     border: 1px solid #ddd;
     border-radius: 4px;
-}
-
-.form-buttons {
-    margin-top: 20px;
-}
-
-button {
-    background-color: #4169e1;
-    color: white;
+  }
+  
+  input:focus {
+    outline: none;
+    border-color: #3498db;
+  }
+  
+  .form-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  button {
+    padding: 0.7rem 1.5rem;
     border: none;
-    padding: 10px 15px;
     border-radius: 4px;
     cursor: pointer;
-    margin-right: 10px;
-    transition: background-color 0.2s;
-}
-
-button:hover {
-    background-color: #3255c7;
-}
-
-button[type="reset"] {
-    background-color: #f0f0f0;
-    color: #333;
-}
-
-button[type="reset"]:hover {
-    background-color: #e1e1e1;
-}
-
-/* Estilos para o popup */
-.popup {
+    background-color: #3498db;
+    color: white;
+    font-weight: bold;
+  }
+  
+  button:hover {
+    background-color: #2980b9;
+  }
+  
+  button[type="reset"] {
+    background-color: #95a5a6;
+  }
+  
+  button[type="reset"]:hover {
+    background-color: #7f8c8d;
+  }
+  
+  .popup {
     display: none;
     position: fixed;
     top: 0;
@@ -111,129 +125,123 @@ button[type="reset"]:hover {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 100;
-}
-
-.popup-content {
+    z-index: 1000;
+  }
+  
+  .popup-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 5px;
+    width: 90%;
+    max-width: 400px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    width: 300px;
-    text-align: center;
-}
-
-.close {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .close {
     position: absolute;
     top: 10px;
-    right: 10px;
-    font-size: 20px;
+    right: 15px;
+    font-size: 1.5rem;
     cursor: pointer;
-}
-
-/* Estilos para a tabela de vagas */
-.list-header {
+  }
+  
+  .list-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.filter-controls {
+    margin-bottom: 1.5rem;
+  }
+  
+  .filter-controls {
     display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.filter-btn {
-    background-color: #f0f0f0;
+    gap: 0.5rem;
+  }
+  
+  .filter-btn {
+    background-color: #eee;
     color: #333;
-    padding: 6px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.filter-btn:hover {
-    background-color: #e0e0e0;
-}
-
-.filter-btn.active {
-    background-color: #4169e1;
+    padding: 0.5rem 1rem;
+  }
+  
+  .filter-btn.active {
+    background-color: #3498db;
     color: white;
-}
-
-.search-box {
-    margin-bottom: 20px;
-}
-
-.search-box input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-table {
+  }
+  
+  .search-box {
+    margin-bottom: 1.5rem;
+  }
+  
+  table {
     width: 100%;
     border-collapse: collapse;
-}
-
-table th,
-table td {
-    padding: 10px;
+    margin-bottom: 1rem;
+  }
+  
+  th, td {
+    padding: 0.75rem;
     text-align: left;
     border-bottom: 1px solid #ddd;
-}
-
-table th {
+  }
+  
+  th {
     background-color: #f5f5f5;
     font-weight: bold;
-}
-
-.status {
+  }
+  
+  tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .status {
     display: inline-block;
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 12px;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.85rem;
     font-weight: bold;
-    text-transform: capitalize;
-}
-
-.status-available {
-    background-color: #e6ffe6;
-    color: green;
-}
-
-.status-occupied {
-    background-color: #ffe6e6;
-    color: red;
-}
-
-/* Rodapé */
-footer {
+  }
+  
+  .status-available {
+    background-color: #2ecc71;
+    color: white;
+  }
+  
+  .status-occupied {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  .btn-reservar {
+    display: inline-block;
+    background-color: #2ecc71;
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.85rem;
+  }
+  
+  footer {
+    background-color: #34495e;
+    color: white;
     text-align: center;
-    padding: 15px 0;
-    color: #666;
-    margin-top: 20px;
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
+    padding: 1rem 0;
+    margin-top: auto;
+  }
+  
+  @media (max-width: 768px) {
     .list-header {
-        flex-direction: column;
-        align-items: flex-start;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
     }
     
     table {
-        display: block;
-        overflow-x: auto;
+      display: block;
+      overflow-x: auto;
     }
-}
+  }
